@@ -1,0 +1,12 @@
+ARG PHP_VER=8.4.2
+ARG FROM=cli
+
+FROM php:${PHP_VER}${FROM:+-$FROM}
+
+ARG DISTRO=debian
+ARG SUITE=swoole
+ARG PHP_CMD=php
+ARG PHP_EXT
+
+ENV TZ=Asia/Shanghai \
+    PHP_CMD=${PHP_CMD}
