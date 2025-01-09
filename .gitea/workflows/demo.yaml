@@ -34,4 +34,4 @@ jobs:
           apt update
           apt install -y bind9 dnsutils net-tools
           ifconfig
-          dig
+          dig registry-1.docker.io
