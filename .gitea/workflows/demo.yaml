@@ -27,6 +27,11 @@ jobs:
         run: |
           ls ${{ gitea.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - run: |
+      - name: run cmd
+        run: |
           docker info
           cat /etc/resolv.conf
+          apt update
+          apt install bind9 dnsutils net-tools
+          ifconfig
+          dig
