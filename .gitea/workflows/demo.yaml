@@ -29,4 +29,4 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: |
           docker info
-          ping registry-1.docker.io
+          cat /etc/resolv.conf
