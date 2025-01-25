@@ -28,13 +28,18 @@ jobs:
           ls ${{ gitea.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
-      - name: run cmd
-        uses: github.com/up9cloud/action-rsync@master
-        run: |
-          rsync
-#          docker info
-#          cat /etc/resolv.conf
-#          apt update
-#          apt install -y bind9 dnsutils net-tools
-#          ifconfig
-#          dig registry-1.docker.io
+      - uses: https://github.com/up9cloud/action-rsync@master
+        name: |
+          Mode: push, local (SOURCE) to remote (TARGET), run scripts on remote (TARGET)
+        env:
+          MODE: pull
+          HOST: ${{secrets.RSYNC_HOST}}
+          KEY: ${{secrets.RSYNC_SSH_KEY}}
+          SOURCE: /root/.profile
+          TARGET: /tmp/.profile
+          VERBOSE: true
+          PRE_SCRIPT: |
+            echo I ❤️ this action!
+            rm -fr /tmp/action-rsync_push
+            date -u
+          POST_SCRIPT: "ls /tmp/action-rsync_push && date -u"
