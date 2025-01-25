@@ -42,3 +42,9 @@ jobs:
             echo I ❤️ this action!
             date -u
           POST_SCRIPT: "cat /tmp/pve.sh && date -u"
+
+      - name: change files
+        run: |
+          date -u >> t.txt
+          cat t.txt
+      - uses: https://github.com/stefanzweifel/git-auto-commit-action@v5
