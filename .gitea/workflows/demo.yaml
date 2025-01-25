@@ -35,11 +35,10 @@ jobs:
           MODE: pull
           HOST: ${{secrets.RSYNC_HOST}}
           KEY: ${{secrets.RSYNC_SSH_KEY}}
-          SOURCE: /root/.profile
-          TARGET: /tmp/.profile
+          SOURCE: /root/pve.sh
+          TARGET: /tmp/
           VERBOSE: true
           PRE_SCRIPT: |
             echo I ❤️ this action!
-            rm -fr /tmp/action-rsync_push
             date -u
-          POST_SCRIPT: "cat /tmp/.profile && date -u"
+          POST_SCRIPT: "cat /tmp/pve.sh && date -u"
