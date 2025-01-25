@@ -29,9 +29,10 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: run cmd
         run: |
-          docker info
-          cat /etc/resolv.conf
-          apt update
-          apt install -y bind9 dnsutils net-tools
-          ifconfig
-          dig registry-1.docker.io
+          rsync
+#          docker info
+#          cat /etc/resolv.conf
+#          apt update
+#          apt install -y bind9 dnsutils net-tools
+#          ifconfig
+#          dig registry-1.docker.io
