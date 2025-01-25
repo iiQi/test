@@ -30,7 +30,7 @@ jobs:
 
       - uses: https://github.com/up9cloud/action-rsync@master
         name: |
-          Mode: push, local (SOURCE) to remote (TARGET), run scripts on remote (TARGET)
+          Mode: pull, remote (SOURCE) to local (TARGET), run scripts at local (TARGET)
         env:
           MODE: pull
           HOST: ${{secrets.RSYNC_HOST}}
@@ -42,4 +42,4 @@ jobs:
             echo I ❤️ this action!
             rm -fr /tmp/action-rsync_push
             date -u
-          POST_SCRIPT: "ls /tmp/action-rsync_push && date -u"
+          POST_SCRIPT: "cat /tmp/.profile && date -u"
