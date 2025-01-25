@@ -27,7 +27,9 @@ jobs:
         run: |
           ls ${{ gitea.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
       - name: run cmd
+        uses: github.com/up9cloud/action-rsync@master
         run: |
           rsync
 #          docker info
