@@ -26,25 +26,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ gitea.workspace }}
+          date "+%Y-%m-%d %H:%M:%S"
+
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
-      - uses: https://github.com/up9cloud/action-rsync@master
-        name: |
-          Mode: pull, remote (SOURCE) to local (TARGET), run scripts at local (TARGET)
-        env:
-          MODE: pull
-          HOST: ${{secrets.RSYNC_HOST}}
-          KEY: ${{secrets.RSYNC_SSH_KEY}}
-          SOURCE: /root/pve.sh
-          TARGET: /tmp/
-          VERBOSE: true
-          PRE_SCRIPT: |
-            echo I ❤️ this action!
-            date -u
-          POST_SCRIPT: "cat /tmp/pve.sh && date -u"
-
-      - name: change files
-        run: |
-          date -u >> t.txt
-          cat t.txt
-      - uses: https://github.com/stefanzweifel/git-auto-commit-action@v5
