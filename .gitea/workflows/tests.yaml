@@ -20,6 +20,7 @@ jobs:
         uses: https://github.com/mikefarah/yq@master
         with:
           cmd: |
+            set -eux;
             ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
             version='[]'
             while IFS= read -r line; do
