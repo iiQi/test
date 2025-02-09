@@ -15,11 +15,11 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+      - name: Set yq
+        uses: https://github.com/mikefarah/yq@master
       - name: get config
         id: get-config
-        uses: https://github.com/mikefarah/yq@master
-        with:
-          cmd: |
+        run: |
             set -eux;
             ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
             version='[]'
