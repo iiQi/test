@@ -13,6 +13,8 @@ jobs:
     outputs:
       config: ${{ steps.get-config.outputs.config }}
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
       - name: get config
         id: get-config
         uses: https://github.com/mikefarah/yq@master
