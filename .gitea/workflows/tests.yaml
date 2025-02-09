@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  CONFIG_FILE: build/config/suite.yaml
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    outputs:
+      config: ${{ steps.get-config.outputs.config }}
+    steps:
+      - name: get config
+        id: get-config
+        uses: https://github.com/mikefarah/yq@master
+        with:
+          cmd: |
+            ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
+            version='[]'
+            while IFS= read -r line; do
+              item=$(curl -sfSL "https://www.php.net/releases/?json&max=1&version=$line" | yq -pj -oy 'keys | .[]')
+              version=$(printf "%s" "$version" | item=$item yq '. *+ [env(item)] | @json')
+            done <<< "$ver"
+            
+            export version
+            
+            config=$(yq '. = {"distro": ["debian", "alpine"], "suite": (.default | keys()), "version": env(version)} | @json' "$CONFIG_FILE")
+            
+            echo config=$config >> $GITHUB_OUTPUT
+
+  tests:
+    needs: init
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{fromJson(needs.init.outputs.config)}}
+
+    steps:
+      - name: print config
+        run: |
+          echo "distro: ${{ matrix.distro }}"
+          echo "suite: ${{ matrix.suite }}"
+          echo "version: ${{ matrix.version }}"
