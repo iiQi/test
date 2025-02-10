@@ -48,10 +48,26 @@ jobs:
       max-parallel: 3
       fail-fast: false
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: config
+        id: config
+        uses: mikefarah/yq@master
+        with:
+          cmd: |
+            DISTRO=${{ matrix.distro }}
+            SUITE=${{ matrix.suite }}
+            VERSION=${{ matrix.version }}
+            
+            export DISTRO SUITE VERSION
+            
+            echo from=$(yq ".default.[env(SUITE)] * .[env(VERSION)].[env(SUITE)] | .from.[env(DISTRO)]" "$configFile") >> $GITHUB_OUTPUT
+            echo cmd=$(yq ".default.[env(SUITE)] * .[env(VERSION)].[env(SUITE)] | .cmd" "$SUITE_CONFIG") >> $GITHUB_OUTPUT
       - name: Print Config
         shell: bash
         run: |
           echo "distro: ${{ matrix.distro }}"
           echo "suite: ${{ matrix.suite }}"
           echo "version: ${{ matrix.version }}"
-          echo "ext: ${{ matrix.ext }}"
+          echo "from: ${{ steps.config.outputs.from }}"
+          echo "cmd: ${{ steps.config.outputs.cmd }}"
