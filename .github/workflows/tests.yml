@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  fetchversion:
+    name: Fetch latest PHP version
+    runs-on: "ubuntu-latest"
+    outputs:
+      info: ${{ steps.fetch.outputs.info }}
+    steps:
+      - name: Fetch version info
+        id: fetch
+        run: |
+          printf 'info=[{"name":"master","rev":"master","patch":"84"}]' >> $GITHUB_OUTPUT
+  linuxtests:
+    name: Linux tests for PHP ${{ matrix.name }}
+    runs-on: "ubuntu-latest"
+    needs:
+      - fetchversion
+    strategy:
+      matrix:
+        include: ${{ fromJSON(needs.fetchversion.outputs.info) }}
+      max-parallel: 3
+      fail-fast: false
+    steps:
+      - name: Checkout PHP
+        uses: actions/checkout@v4
+        with:
+          repository: php/php-src
+          path: php-src
+          ref: ${{ matrix.rev }}
+
+      - name: Checkout micro
+        uses: actions/checkout@v4
+        with:
+          path: php-src/sapi/micro
+
+      - name: Print Config
+        shell: bash
+        run: |
+          echo "name: ${{ matrix.name }}"
+          echo "rev: ${{ matrix.rev }}"
+          echo "patch: ${{ matrix.patch }}"
