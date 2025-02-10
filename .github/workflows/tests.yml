@@ -5,39 +5,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  fetchversion:
+  init:
     name: Fetch latest PHP version
     runs-on: "ubuntu-latest"
     outputs:
-      info: ${{ steps.fetch.outputs.info }}
+      config: ${{ steps.fetch.outputs.config }}
     steps:
       - name: Fetch version info
         id: fetch
         run: |
-          printf 'info=[{"name":"master","rev":"master","patch":"84"}]' >> $GITHUB_OUTPUT
+          printf 'config=[{"name":"master","rev":"master","patch":"84"}]' >> $GITHUB_OUTPUT
+
   linuxtests:
     name: Linux tests for PHP ${{ matrix.name }}
     runs-on: "ubuntu-latest"
     needs:
-      - fetchversion
+      - init
     strategy:
       matrix:
-        include: ${{ fromJSON(needs.fetchversion.outputs.info) }}
+        include: ${{ fromJSON(needs.init.outputs.config) }}
       max-parallel: 3
       fail-fast: false
     steps:
-      - name: Checkout PHP
-        uses: actions/checkout@v4
-        with:
-          repository: php/php-src
-          path: php-src
-          ref: ${{ matrix.rev }}
-
-      - name: Checkout micro
-        uses: actions/checkout@v4
-        with:
-          path: php-src/sapi/micro
-
       - name: Print Config
         shell: bash
         run: |
