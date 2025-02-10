@@ -14,22 +14,21 @@ jobs:
       - name: Fetch version info
         id: fetch
         run: |
-          printf 'config=[{"name":"master","rev":"master","patch":"84"}]' >> $GITHUB_OUTPUT
+          printf 'config={"distro":["debian","alpine"],"suite":["fpm","swoole"],"version":["8.0.30","8.1.31","8.2.27","8.3.16","8.4.3"]}' >> $GITHUB_OUTPUT
 
   linuxtests:
-    name: Linux tests for PHP ${{ matrix.name }}
+    name: Linux tests for PHP ${{ matrix.suite }}
     runs-on: "ubuntu-latest"
     needs:
       - init
     strategy:
-      matrix:
-        include: ${{ fromJSON(needs.init.outputs.config) }}
+      matrix: ${{ fromJSON(needs.init.outputs.config) }}
       max-parallel: 3
       fail-fast: false
     steps:
       - name: Print Config
         shell: bash
         run: |
-          echo "name: ${{ matrix.name }}"
-          echo "rev: ${{ matrix.rev }}"
-          echo "patch: ${{ matrix.patch }}"
+          echo "distro: ${{ matrix.distro }}"
+          echo "suite: ${{ matrix.suite }}"
+          echo "version: ${{ matrix.version }}"
