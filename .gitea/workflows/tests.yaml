@@ -16,7 +16,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Set yq
-        uses: https://github.com/mikefarah/yq@master
+        uses: mikefarah/yq@master
       - name: get config
         id: get-config
         run: |
