@@ -58,3 +58,5 @@ jobs:
           echo "distro: ${{ matrix.distro }}"
           echo "suite: ${{ matrix.suite }}"
           echo "version: ${{ matrix.version }}"
+          echo "===================env=================="
+          env
