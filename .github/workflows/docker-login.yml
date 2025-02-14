@@ -1,9 +1,6 @@
 on:
   workflow_call:
 
-env:
-  ALIYUNCS_USERNAME: ${{ secrets.ALIYUNCS_USERNAME }}
-
 jobs:
   docker-login:
     runs-on: ubuntu-latest
