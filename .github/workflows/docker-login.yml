@@ -2,7 +2,7 @@ on:
   workflow_call:
 
 env:
-  ALIYUNCS_USERNAME: ${{ secrets.ALIYUNCS_USERNAME }}
+  ALIYUNCS_USERNAME: "12334"
 
 jobs:
   docker-login:
