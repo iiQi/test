@@ -39,7 +39,6 @@ jobs:
       - name: Config
         id: config
         shell: bash
-        working-directory: build
         run: |
           DISTRO=${{ matrix.distro }}
           SUITE=${{ matrix.suite }}
