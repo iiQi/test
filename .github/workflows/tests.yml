@@ -16,6 +16,7 @@ jobs:
       - name: config
         id: get-config
         run: |
+          set -eux;
           cat /etc/resolv.conf
           echo config='{"distro":["debian"], "suite": ["swoole"], "version": ["8.3.16"]}' >> $GITHUB_OUTPUT
 #      - name: Check out repository code
