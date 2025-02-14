@@ -39,6 +39,8 @@ jobs:
         version: ["8.3.16"]
       fail-fast: false
     steps:
+      - name: Login
+        uses: ./.github/workflows/docker-login.yml
       - name: Config
         id: config
         shell: bash
