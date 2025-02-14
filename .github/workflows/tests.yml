@@ -13,29 +13,33 @@ jobs:
     outputs:
       config: ${{ steps.get-config.outputs.config }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Set yq
-        uses: mikefarah/yq@master
-        with:
-          cmd: ''
-      - name: get config
-        id: get-config
+      - name: a
         run: |
-            set -eux;
-            ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
-            ver="8.3"
-            version='[]'
-            while IFS= read -r line; do
-              item=$(curl -sfSL "https://www.php.net/releases/?json&max=1&version=$line" | yq -pj -oy 'keys | .[]')
-              version=$(printf "%s" "$version" | item=$item yq '. *+ [env(item)] | @json')
-            done <<< "$ver"
-            
-            export version
-            
-            config=$(yq '. = {"distro": ["debian", "alpine"], "suite": (.default | keys()), "version": env(version)} | @json' "$CONFIG_FILE")
-            
-            echo config=$config >> $GITHUB_OUTPUT
+          cat /etc/resolv.conf
+          echo config='{"distro":["debian"], "suite": ["swoole"], "version": ["8.3.16"]}' >> $GITHUB_OUTPUT
+#      - name: Check out repository code
+#        uses: actions/checkout@v3
+#      - name: Set yq
+#        uses: mikefarah/yq@master
+#        with:
+#          cmd: ''
+#      - name: get config
+#        id: get-config
+#        run: |
+#            set -eux;
+#            ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
+#            ver="8.3"
+#            version='[]'
+#            while IFS= read -r line; do
+#              item=$(curl -sfSL "https://www.php.net/releases/?json&max=1&version=$line" | yq -pj -oy 'keys | .[]')
+#              version=$(printf "%s" "$version" | item=$item yq '. *+ [env(item)] | @json')
+#            done <<< "$ver"
+#
+#            export version
+#
+#            config=$(yq '. = {"distro": ["debian", "alpine"], "suite": (.default | keys()), "version": env(version)} | @json' "$CONFIG_FILE")
+#
+#            echo config=$config >> $GITHUB_OUTPUT
 
   tests:
     needs: init
