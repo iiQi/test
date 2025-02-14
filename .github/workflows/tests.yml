@@ -26,6 +26,9 @@ jobs:
           config='{"distro": ["debian", "alpine"], "suite": ["swoole"], "version": ["8.3.16"]}'
           
           echo config=$config >> $GITHUB_OUTPUT
+  login:
+    name: Login
+    uses: ./.github/workflows/docker-login.yml
 
   build:
     name: Build PHP ${{ matrix.version }}-${{ matrix.suite }}-${{ matrix.distro }}
@@ -39,8 +42,7 @@ jobs:
         version: ["8.3.16"]
       fail-fast: false
     steps:
-      - name: Login
-        uses: ./.github/workflows/docker-login.yml
+
       - name: Config
         id: config
         shell: bash
