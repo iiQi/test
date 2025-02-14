@@ -29,6 +29,7 @@ jobs:
   login:
     name: Login
     uses: ./.github/workflows/docker-login.yml
+    secrets: inherit
 
   build:
     name: Build PHP ${{ matrix.version }}-${{ matrix.suite }}-${{ matrix.distro }}
