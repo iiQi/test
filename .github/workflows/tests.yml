@@ -55,9 +55,9 @@ jobs:
           echo "suite: ${{ matrix.suite }}"
           echo "version: ${{ matrix.version }}"
 
-      - name: Call Reusable Workflow for Docker Login
-        uses: ./.github/workflows/docker-login.yml
-        secrets: inherit
+#      - name: Call Reusable Workflow for Docker Login
+#        uses: ./.github/workflows/docker-login.yml
+#        secrets: inherit
 
       - name: Check Docker Login Status
         run: docker info
