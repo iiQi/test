@@ -24,6 +24,7 @@ jobs:
         run: |
             set -eux;
             ver=$(yq 'keys() | filter(.!= "default") |.[]' "$CONFIG_FILE")
+            ver="8.3"
             version='[]'
             while IFS= read -r line; do
               item=$(curl -sfSL "https://www.php.net/releases/?json&max=1&version=$line" | yq -pj -oy 'keys | .[]')
@@ -40,8 +41,7 @@ jobs:
     needs: init
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        include: ${{fromJson(needs.init.outputs.config)}}
+      matrix: ${{fromJson(needs.init.outputs.config)}}
 
     steps:
       - name: print config
@@ -49,3 +49,10 @@ jobs:
           echo "distro: ${{ matrix.distro }}"
           echo "suite: ${{ matrix.suite }}"
           echo "version: ${{ matrix.version }}"
+
+      - name: Call Reusable Workflow for Docker Login
+        uses: ./.github/workflows/docker-login.yml
+        secrets: inherit
+
+      - name: Check Docker Login Status
+        run: docker info
