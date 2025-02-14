@@ -13,7 +13,8 @@ jobs:
     outputs:
       config: ${{ steps.get-config.outputs.config }}
     steps:
-      - name: a
+      - name: config
+        id: get-config
         run: |
           cat /etc/resolv.conf
           echo config='{"distro":["debian"], "suite": ["swoole"], "version": ["8.3.16"]}' >> $GITHUB_OUTPUT
