@@ -33,7 +33,10 @@ jobs:
     needs:
       - init
     strategy:
-      matrix: ${{ fromJSON(needs.init.outputs.config) }}
+      matrix:
+        distro: ["debian", "alpine"]
+        suite: ["swoole"]
+        version: ["8.3.16"]
       fail-fast: false
     steps:
       - name: Config
