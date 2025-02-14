@@ -34,7 +34,7 @@ jobs:
           
           export version
           
-          config=$(yq '. = {"distro": ["debian", "alpine"], "suite": ["swoole"], "version": env(version), "ext": (. | keys() *+ [""])} | @json' "$EXT_CONFIG")
+          config=$(yq '. = {"distro": ["debian", "alpine"], "suite": ["swoole"], "version": env(version)} | @json' "$EXT_CONFIG")
           
           echo config=$config >> $GITHUB_OUTPUT
 
