@@ -62,10 +62,16 @@ jobs:
           echo "version: ${{ matrix.version }}"
 
   sync:
-    name: Sync
+    name: Sync ${{ matrix.registry }}
     needs:
       - build
+    strategy:
+      matrix:
+        include: ${{ fromJSON(needs.init.outputs.registries) }}
     uses: ./.github/workflows/sync.yml
     secrets: inherit
     with:
-      registries: ${{ needs.init.outputs.registries }}
+      registry: ${{ matrix.registry }}
+      image: ${{ matrix.image }}
+      username: ${{ matrix.username }}
+      password: ${{ matrix.password }}

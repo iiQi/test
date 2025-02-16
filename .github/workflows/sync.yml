@@ -1,25 +1,29 @@
 on:
   workflow_call:
     inputs:
-      registries:
+      registry:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
+      username:
+        required: true
+        type: string
+      password:
         required: true
         type: string
 
 jobs:
   docker-login:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include: [{"registry":"docker.io","image":"iiqi/php","username":"DOCKERHUB_USERNAME","password":"DOCKERHUB_TOKEN"},{"registry":"aliyun.com","image":"iiqi/php","username":"ALIYUNCS_USERNAME","password":"ALIYUNCS_PASSWORD"}]
-      fail-fast: false
     steps:
       - name: info
         run: |
           set -eux
-          echo "registry: ${{ matrix.registry }}"
-          echo "image: ${{ matrix.image }}"
-          echo "username: ${{ matrix.username }}"
-          echo "password: ${{ matrix.password }}"
+          echo "registry: ${{ inputs.registry }}"
+          echo "image: ${{ inputs.image }}"
+          echo "username: ${{ inputs.username }}"
+          echo "password: ${{ inputs.password }}"
           
-          echo ${{ inputs.registries }}
           echo ${{ secrets.RSYNC_HOST }}
