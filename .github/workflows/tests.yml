@@ -53,8 +53,8 @@ jobs:
           VERSION=${{ matrix.version }}
 
           registries='[
-                    {"registry":"docker.io","image":"iiqi/php","username":"DOCKERHUB_USERNAME","password":"DOCKERHUB_TOKEN","distro":"debian","suite":"swoole","version":"8.3.16"},
-                    {"registry":"aliyun.com","image":"iiqi/php","username":"ALIYUNCS_USERNAME","password":"ALIYUNCS_PASSWORD","distro":"debian","suite":"swoole","version":"8.3.16"},
+                    {"registry":"docker.io","image":"iiqi/php","username":"DOCKERHUB_USERNAME","password":"DOCKERHUB_TOKEN","distro":"${{ matrix.distro }}","suite":"swoole","version":"8.3.16"},
+                    {"registry":"aliyun.com","image":"iiqi/php","username":"ALIYUNCS_USERNAME","password":"ALIYUNCS_PASSWORD","distro":"${{ matrix.distro }}","suite":"swoole","version":"8.3.16"},
           ]'
 
           echo registries=$registries >> $GITHUB_OUTPUT
