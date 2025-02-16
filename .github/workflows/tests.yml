@@ -64,6 +64,7 @@ jobs:
   sync:
     name: Sync ${{ matrix.registry }}
     needs:
+      - init
       - build
     strategy:
       matrix:
