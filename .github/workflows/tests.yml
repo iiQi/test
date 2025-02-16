@@ -28,16 +28,14 @@ jobs:
           config='{"distro": ["debian", "alpine"], "suite": ["swoole"], "version": ["8.3.16"]}'
           
           echo config=$config >> $GITHUB_OUTPUT
-          
-          registries='[{"registry":"docker.io","image":"iiqi/php","username":"DOCKERHUB_USERNAME","password":"DOCKERHUB_TOKEN"},{"registry":"aliyun.com","image":"iiqi/php","username":"ALIYUNCS_USERNAME","password":"ALIYUNCS_PASSWORD"}]'
-
-          echo registries=$registries >> $GITHUB_OUTPUT
 
   build:
     name: Build PHP ${{ matrix.version }}-${{ matrix.suite }}-${{ matrix.distro }}
     runs-on: "ubuntu-latest"
     needs:
       - init
+    outputs:
+      registries: ${{ steps.config.outputs.registries }}
     strategy:
       matrix:
         distro: ["debian", "alpine"]
@@ -54,6 +52,13 @@ jobs:
           SUITE=${{ matrix.suite }}
           VERSION=${{ matrix.version }}
 
+          registries='[
+                    {"registry":"docker.io","image":"iiqi/php","username":"DOCKERHUB_USERNAME","password":"DOCKERHUB_TOKEN","distro":"debian","suite":"swoole","version":"8.3.16"},
+                    {"registry":"aliyun.com","image":"iiqi/php","username":"ALIYUNCS_USERNAME","password":"ALIYUNCS_PASSWORD","distro":"debian","suite":"swoole","version":"8.3.16"},
+          ]'
+
+          echo registries=$registries >> $GITHUB_OUTPUT
+
       - name: Print Config
         shell: bash
         run: |
@@ -64,10 +69,9 @@ jobs:
   sync:
     name: Sync ${{ matrix.registry }}
     needs:
-      - init
       - build
 
     uses: ./.github/workflows/sync.yml
     secrets: inherit
     with:
-      registries: ${{ needs.init.outputs.registries }}
+      registries: ${{ needs.build.outputs.registries }}
