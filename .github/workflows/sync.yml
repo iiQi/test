@@ -1,29 +1,23 @@
 on:
   workflow_call:
     inputs:
-      registry:
-        required: true
-        type: string
-      image:
-        required: true
-        type: string
-      username:
-        required: true
-        type: string
-      password:
+      registries:
         required: true
         type: string
 
 jobs:
   docker-login:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJSON(inputs.registries) }}
     steps:
       - name: info
         run: |
           set -eux
-          echo "registry: ${{ inputs.registry }}"
-          echo "image: ${{ inputs.image }}"
-          echo "username: ${{ inputs.username }}"
-          echo "password: ${{ inputs.password }}"
+          echo "registry: ${{ matrix.registry }}"
+          echo "image: ${{ matrix.image }}"
+          echo "username: ${{ matrix.username }}"
+          echo "password: ${{ matrix.password }}"
           
           echo ${{ secrets.RSYNC_HOST }}

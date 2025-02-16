@@ -66,13 +66,8 @@ jobs:
     needs:
       - init
       - build
-    strategy:
-      matrix:
-        include: ${{ fromJSON(needs.init.outputs.registries) }}
+
     uses: ./.github/workflows/sync.yml
     secrets: inherit
     with:
-      registry: ${{ matrix.registry }}
-      image: ${{ matrix.image }}
-      username: ${{ matrix.username }}
-      password: ${{ matrix.password }}
+      registries: ${{ needs.init.outputs.registries }}
