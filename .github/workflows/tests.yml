@@ -24,6 +24,7 @@ jobs:
         id: query-config
         shell: bash
         run: |
+          set -eux
           config='{"distro": ["debian", "alpine"], "suite": ["swoole"], "version": ["8.3.16"]}'
           
           echo config=$config >> $GITHUB_OUTPUT
