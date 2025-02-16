@@ -1,5 +1,9 @@
 on:
   workflow_call:
+    inputs:
+      registries:
+        required: true
+        type: string
 
 jobs:
   docker-login:
@@ -9,3 +13,4 @@ jobs:
         run: |
           set -eux
           echo ${{ inputs.registries }}
+          echo ${{ secrets.RSYNC_HOST }}
