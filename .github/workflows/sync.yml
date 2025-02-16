@@ -1,0 +1,10 @@
+on:
+  workflow_call:
+
+jobs:
+  docker-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: info
+        run: |
+          echo ${{ inputs.registries }}
