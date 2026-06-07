@@ -3,6 +3,15 @@ run-name: ${{ github.actor }} is testing out Gitea Actions 🚀
 on: [push]
 
 jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          set -eux
+          echo ${{ env.GITHUB_RUN_ID }}
+          echo ${{ env.GITHUB_RUN_NUMBER }}
+
+
   Explore-Gitea-Actions:
     runs-on: ubuntu-latest
     steps:
